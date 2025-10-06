@@ -5,7 +5,7 @@ FROM n8nio/n8n:latest
 WORKDIR /home/node
 
 # Copy your workflow into container
-COPY Gmail Agent with Auto Replies and Auto Classifying.json /home/node/workflow.json
+COPY workflow.json /home/node/workflow.json
 
 # Expose n8n default port
 EXPOSE 5678
