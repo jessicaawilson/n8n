@@ -1,19 +1,22 @@
-# Use the official n8n Docker image as base
+# Use official n8n image as base
 FROM n8nio/n8n:latest
 
 # Set working directory
 WORKDIR /home/node
 
-# Copy custom configurations if any (optional)
-# COPY ./custom /home/node/custom
+# Copy your workflow into container
+COPY workflow.json /home/node/workflow.json
 
-# Expose default n8n port
+# Expose n8n default port
 EXPOSE 5678
 
-# Set environment variables (you can also set these in Render dashboard)
+# Create n8n data folder (for persistent storage)
+RUN mkdir -p /home/node/.n8n
+
+# Set environment variables (can override in Render dashboard)
 ENV N8N_PORT=5678
 ENV N8N_HOST=0.0.0.0
-ENV WEBHOOK_URL=http://your-render-domain.onrender.com/  
+ENV WEBHOOK_URL=https://your-render-app.onrender.com/  # replace with Render URL
 ENV N8N_BASIC_AUTH_ACTIVE=true
 ENV N8N_BASIC_AUTH_USER=admin
 ENV N8N_BASIC_AUTH_PASSWORD=yourpassword
@@ -21,9 +24,10 @@ ENV NODE_ENV=production
 ENV DB_TYPE=sqlite
 ENV DB_SQLITE_DATABASE=/home/node/.n8n/database.sqlite
 
-# Create directory for n8n data
-RUN mkdir -p /home/node/.n8n
+# Copy the workflow into n8n default workflow folder
+RUN mkdir -p /home/node/.n8n/workflows \
+    && cp /home/node/workflow.json /home/node/.n8n/workflows/workflow.json
 
-# Set the entrypoint to start n8n
+# Start n8n
 ENTRYPOINT ["n8n"]
 CMD ["start"]
