@@ -1,0 +1,423 @@
+{
+  "name": "Gmail Agent with Auto Replies and Auto Classifying",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -880,
+        336
+      ],
+      "id": "376bf744-d989-4543-b0e6-b48e55423131",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e91eTStf9V3cZEKs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.snippet }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Product Enquiry",
+              "description": "Emails with questions or requests for information about solar products, specifications, features, or compatibility."
+            },
+            {
+              "category": "Order Request",
+              "description": "Emails with requests to place an order for solar products or services."
+            },
+            {
+              "category": "Feedback or Complaint",
+              "description": "Emails with customer feedback, complaints, or suggestions about products or services."
+            },
+            {
+              "category": "Technical Support",
+              "description": "Emails with requests for help with installation, troubleshooting, or technical issues related to solar products."
+            },
+            {
+              "category": "Warranty or Service Request",
+              "description": "Emails with inquiries about product warranty, service claims, or repair requests."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -592,
+        288
+      ],
+      "id": "6e627955-f6d1-4877-8ff8-7baecccef81b",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-scout:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        592
+      ],
+      "id": "7b1ddb61-a9cd-4835-866d-63f60c9e7852",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "M3ErbZ3apvXKpPEc",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_8151541810811690279"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "decc7a81-4a81-483b-bbb0-5b4aee1d1665",
+      "name": "Add label to message",
+      "webhookId": "ea126bdd-2720-4a10-978d-efb678540741",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e91eTStf9V3cZEKs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_2593525300864711751"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        192
+      ],
+      "id": "bf422692-f7ed-49b8-8da4-897bed89d7e6",
+      "name": "Add label to message1",
+      "webhookId": "ea126bdd-2720-4a10-978d-efb678540741",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e91eTStf9V3cZEKs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_414242135039463442"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        384
+      ],
+      "id": "c09e79d3-d7d1-41d3-9bab-8759190adf2b",
+      "name": "Add label to message2",
+      "webhookId": "ea126bdd-2720-4a10-978d-efb678540741",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e91eTStf9V3cZEKs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_1683929037528650941"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        576
+      ],
+      "id": "fe91771e-97b3-41fe-acb6-e9cdddf468fa",
+      "name": "Add label to message3",
+      "webhookId": "ea126bdd-2720-4a10-978d-efb678540741",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e91eTStf9V3cZEKs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_3645902672393020386"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        16,
+        784
+      ],
+      "id": "2c70d8b4-1977-4fc2-a935-087cd5104040",
+      "name": "Add label to message4",
+      "webhookId": "ea126bdd-2720-4a10-978d-efb678540741",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e91eTStf9V3cZEKs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an email assistant for Sun Solar Company Ltd. Only reply to emails that are related to solar products or services. The email has already been classified into one of the following categories. If the email is not about solar do not send a reply to that email. Use the label to guide your response.\n\nLabel-based response guidelines:\n\nProduct Enquiry:\nDirect the sender to the Sales and Marketing team at +91**********.\n\nOrder Request:\nAsk the sender to provide their Name, Contact Number, Email, Billing Address, Product(s) Interested In, and Quantity for each product to salesandmarketing@gmail.com. Inform them that the Sales and Marketing team will follow up.\n\nFeedback or Complaint:\nThank the sender for their feedback or complaint and assure them it will be reviewed by the relevant team.\n\nTechnical Support:\nRequest details about the issue and the product involved. Inform the sender to send their issue to sunsolartechnicians@gmail.com and that the technical support team will assist them further.\n\nWarranty or Service Request:\nDirect the sender to share their product details and purchase information to sunsolarwarrantyservice@gmail.com. Inform them that the service team will review their request.\n\nReply Guidelines:\n\nUse a polite and professional tone.\nOnly reply if the email is about solar products or services.\nStart email with Dear and not this \"Here is the email response:\"\n\nAt the end of email replies, add:\n\"Please do not reply to this email thread as it was an automatic reply.\"\nEmail Data:\n\nEmail Text: {{ $('Gmail Trigger').item.json.snippet }}\nSender’s Email: {{ $('Gmail Trigger').item.json.From }}\nCategory Label: {{ $json.labelIds }}\nRules:\n\nOnly reply to the sender’s email address.\nDo not answer product questions directly; direct them to the appropriate team.\nDo not reply to any follow-up emails in the same thread after your initial response.\nIgnore any emails not related to solar products or services and do not reply to them.\n\nEnd the email reply with the exact signature:\nBest Regards,\nYashvi B,\nSun Solar Company Ltd.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        368
+      ],
+      "id": "28106151-3f4a-443a-b703-d9d86ece471a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-scout:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        432,
+        656
+      ],
+      "id": "1dff0742-8c59-4be0-a450-33d6dd591f43",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "M3ErbZ3apvXKpPEc",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false,
+          "replyToSenderOnly": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        784,
+        368
+      ],
+      "id": "26ad4183-4a8d-41dd-8547-553df62d928e",
+      "name": "Reply to a message",
+      "webhookId": "9ef84315-9d25-4039-a501-686b536c8f16",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "e91eTStf9V3cZEKs",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Add label to message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message4": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8a023ed7-f1d0-424d-9701-334356dc303e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "eb5aefe0e422cb9c0327263efa65e1db68ebeba0c57e12a63dd05866ecd95dec"
+  },
+  "id": "AVp8JzRiS6xiAU4U",
+  "tags": []
+}
